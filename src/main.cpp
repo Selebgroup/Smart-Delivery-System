@@ -91,7 +91,7 @@ int offlineAlarmEventCount = 0;
 const int SENSOR_PIN = 2; // Pin sensor Suhu
 OneWire oneWire(SENSOR_PIN);
 DallasTemperature sensors(&oneWire);
-float lastMeasuredTemperature = 0.0;
+// float lastMeasuredTemperature = 0.0;
 
 const double REFERENCE_RESISTANCE = 10000;  // Resistor seri 10k ohm
 const double NOMINAL_RESISTANCE = 10000;    // Resistansi nominal NTC pada 25°C
@@ -870,7 +870,7 @@ float readTemperature() {
   // Request suhu dari sensor
   sensors.requestTemperatures();
   float temperature = sensors.getTempCByIndex(0);
-  lastMeasuredTemperature = temperature;
+  // lastMeasuredTemperature = temperature;
   
   Serial.print("Temperature: ");
   Serial.print(temperature);
@@ -1154,8 +1154,8 @@ void publishAlarmNyala(const String& timeStr) {
   StaticJsonDocument<128> doc;
   doc["deviceid"] = device_id;
   doc["alarm_nyala"] = timeStr;
-   doc["temp"] = lastMeasuredTemperature;
-   doc["setpoint"] = tempSetpoint;
+  //  doc["temp"] = lastMeasuredTemperature;
+  //  doc["setpoint"] = tempSetpoint;
   String jsonString;
   serializeJson(doc, jsonString);
   mqtt_client.publish(topic_publish, jsonString.c_str());
@@ -1168,8 +1168,8 @@ void publishAlarmDuration(unsigned long seconds) {
   StaticJsonDocument<128> doc;
   doc["deviceid"] = device_id;
   doc["durasi_waktu"] = seconds;
-  doc["temp"] = lastMeasuredTemperature;
-  doc["setpoint"] = tempSetpoint;
+  // doc["temp"] = lastMeasuredTemperature;
+  // doc["setpoint"] = tempSetpoint;
   String jsonString;
   serializeJson(doc, jsonString);
   mqtt_client.publish(topic_publish, jsonString.c_str());
@@ -1183,8 +1183,8 @@ void publishAlarmStopWithDuration(const String& timeStr, unsigned long seconds) 
   doc["deviceid"] = device_id;
   doc["durasi_waktu"] = seconds;
   doc["alarm_mati"] = timeStr;
-  doc["temp"] = lastMeasuredTemperature;
-  doc["setpoint"] = tempSetpoint;
+  // doc["temp"] = lastMeasuredTemperature;
+  // doc["setpoint"] = tempSetpoint;
   String jsonString;
   serializeJson(doc, jsonString);
   mqtt_client.publish(topic_publish, jsonString.c_str());
